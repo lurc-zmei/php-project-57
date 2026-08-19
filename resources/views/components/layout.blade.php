@@ -1,32 +1,27 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="lofi">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ isset($title) ? $title . ' - Laravel' : 'Менеджер задач' }}</title>
-    <link rel="preconnect" href="<https://fonts.bunny.net>">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-<body class="min-h-screen flex flex-col bg-base-200 font-sans">
-    <nav class="navbar bg-base-100">
-        <div class="navbar-start">
-            <a href="/" class="btn btn-ghost text-xl">Менеджер задач</a>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased bg-gray-50 text-gray-800">
+        <div class="min-h-screen">
+            <x-navigation/>
+            
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
         </div>
-        <div class="navbar-end gap-2">
-            <a href="/login" class="btn btn-info btn-sm">Вход</a>
-            <a href="/register" class="btn btn-info btn-sm">Регистрация</a>
-        </div>
-    </nav>
-
-    <main class="flex-1 container mx-auto px-4 py-8">
-        {{ $slot }}
-    </main>
-
-</body>
-
+    </body>
 </html>

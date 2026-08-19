@@ -1,15 +1,14 @@
 FROM php:8.5-cli
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
     libpq-dev \
-    libzip-dev \
-    git \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
+    libzip-dev
 RUN docker-php-ext-install pdo pdo_pgsql zip
 # RUN docker-php-ext-configure pdo pdo_pgsql
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && php -r "unlink('composer-setup.php');"
 
 RUN curl -sL https://deb.nodesource.com/setup_26.x | bash -
 RUN apt-get install -y nodejs
@@ -17,17 +16,10 @@ RUN npm install --global pnpm@11
 
 WORKDIR /app
 
-COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-interaction --prefer-dist
-
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
 COPY . .
-
-RUN composer dump-autoload --optimize
+RUN composer install
+RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 
-ENV PORT=80
 
 CMD ["bash", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"]
