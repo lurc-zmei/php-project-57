@@ -20,6 +20,7 @@ services:
     #command: make setup
     ports:
       - "8000:8000"
+      - "5173:5173"
     volumes:
       - .:/app
     depends_on:
