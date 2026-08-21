@@ -2,13 +2,15 @@ services:
   db:
     image: postgres:17-alpine
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -17,11 +19,17 @@ services:
   app:
     build:
       context: .
-    command: bash -c "php artisan migrate --force && (pnpm run dev & php artisan serve --host=0.0.0.0 --port=8000)"
+    command: >
+      bash -c "
+      if ! grep -q '^APP_KEY=base64:' .env; then php artisan key:generate --force; fi &&
+      php artisan migrate --force &&
+      (pnpm run dev & php artisan serve --host=0.0.0.0 --port=8000)
+      "
     ports:
       - "8000:8000"
       - "5173:5173"
     volumes:
+      - ./.env:/app/.env
       - /app/vendor
       - /app/node_modules
     depends_on:
@@ -38,6 +46,7 @@ services:
             - storage/
             - public/build/
             - .git/
+            - .env
 
         - action: rebuild
           path: composer.json
