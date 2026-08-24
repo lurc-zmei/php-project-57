@@ -21,11 +21,10 @@ make start
 ```
   
 **Вариант 2**
-- создайте файл конфигурации окружения `.env` из `.env.example` и выполните команду для запуска:
+- выполните команду для запуска:
 
 ```bash
-cp -n .env.example .env
-docker compose up --build --watch
+docker compose up --build
 ```
 После запуска приложение будет доступно по адресу:  
 `http://localhost:8000`

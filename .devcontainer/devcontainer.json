@@ -1,0 +1,26 @@
+{
+  "name": "Laravel Dev Container",
+  "dockerComposeFile": [
+    "../compose.yml",
+    "docker-compose.yml"
+  ],
+  "service": "app",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "onecentlin.laravel-blade",
+        "shufo.vscode-blade-formatter",
+        "bradlc.vscode-tailwindcss",
+        "stef-k.laravel-goto-controller",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "[blade]": {
+          "editor.defaultFormatter": "shufo.vscode-blade-formatter"
+        }
+      }
+    }
+  }
+}

@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:17-alpine
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_DATABASE:-postgres}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -21,7 +21,10 @@ services:
       context: .
     command: >
       bash -c "
+      if [ ! -f .env ]; then cp .env.example .env; fi &&
       if ! grep -q '^APP_KEY=base64:' .env; then php artisan key:generate --force; fi &&
+      composer install --no-interaction &&
+      pnpm install --frozen-lockfile &&
       php artisan migrate --force &&
       (pnpm run dev & php artisan serve --host=0.0.0.0 --port=8000)
       "
@@ -29,29 +32,10 @@ services:
       - "8000:8000"
       - "5173:5173"
     volumes:
-      - ./.env:/app/.env
-      - /app/vendor
-      - /app/node_modules
+      - .:/app
     depends_on:
       db:
         condition: service_healthy
-    develop:
-      watch:
-        - action: sync
-          path: .
-          target: /app
-          ignore:
-            - vendor/
-            - node_modules/
-            - storage/
-            - public/build/
-            - .git/
-            - .env
-
-        - action: rebuild
-          path: composer.json
-        - action: rebuild
-          path: package.json
 
 volumes:
   pgdata:
