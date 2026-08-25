@@ -1,8 +1,7 @@
 {
   "name": "Laravel Dev Container",
   "dockerComposeFile": [
-    "../compose.yml",
-    "docker-compose.yml"
+    "../compose.yml"
   ],
   "service": "app",
   "workspaceFolder": "/app",

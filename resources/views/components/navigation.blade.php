@@ -10,17 +10,19 @@
 
             <!-- Ссылки навигации по центру через x-nav-link -->
             <div class="hidden sm:flex space-x-8 mx-auto h-full">
+                @auth
                 <x-nav-link href="#" :active="request()->is('tasks*')">
                     {{ __('Задачи') }}
                 </x-nav-link>
 
-                <x-nav-link href="#" :active="request()->is('task_statuses*')">
+                <x-nav-link href="/task_statuses" :active="request()->is('task_statuses*')">
                     {{ __('Статусы') }}
                 </x-nav-link>
 
                 <x-nav-link href="#" :active="request()->is('labels*')">
                     {{ __('Метки') }}
                 </x-nav-link>
+                @endauth
             </div>
 
             <!-- Правая часть (Авторизация / Гость) -->

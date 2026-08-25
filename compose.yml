@@ -33,9 +33,13 @@ services:
       - "5173:5173"
     volumes:
       - .:/app
+      - vendor_data:/app/vendor
+      - node_modules_data:/app/node_modules
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   pgdata:
+  vendor_data:
+  node_modules_data:
