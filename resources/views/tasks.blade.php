@@ -22,14 +22,17 @@
                     @foreach ($tasks as $task)
                         <tr>
                             <td class="py-3 px-4">{{ $task->id }}</td>
+        {{-- TODO: сделать вывод имен вместо цифр --}}
                             <td class="py-3 px-4">{{ $task->status_id }}</td>
                             <td class="py-3 px-4">{{ $task->name }}</td>
+        {{-- TODO: сделать вывод имен вместо цифр --}}
                             <td class="py-3 px-4">{{ $task->created_by_id }}</td>
+        {{-- TODO: сделать вывод имен вместо цифр --}}
                             <td class="py-3 px-4">{{ $task->assigned_to_id }}</td>
                             <td class="py-3 px-4">{{ $task->created_at }}</td>
                             <td class="py-3 px-4">
         {{-- FIXME: Изменить  маршрут route Task--}} 
-                                <a href="{{ route('task_statuses.edit', $status->id) }}"
+                                <a href="{{ route('task_statuses.edit', $task->id) }}"
                                     class="text-blue-600 hover:underline">Изменить</a>
                             </td>
                         </tr>

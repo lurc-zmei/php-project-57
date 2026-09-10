@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\TaskStatus;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -33,7 +34,23 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->merge([
+            'created_by_id' => Auth::id(),
+        ]);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:24|unique:tasks,name',
+            'description' => 'nullable|string|max:255',
+            'status_id' => 'required|exists:task_statuses,id',
+            'created_by_id' => 'required|exists:users,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
+        ]);
+
+        Task::create($validated);
+
+        flash('Задача успешно создана')->success();
+
+        return redirect()->route('tasks');
     }
 
     /**
