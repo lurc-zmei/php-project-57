@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Models\TaskStatus;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -12,7 +14,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::all();
+        return view('tasks', compact('tasks'));
     }
 
     /**
@@ -20,7 +23,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $statuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id')->prepend('');
+        return view('tasks.create', compact('statuses', 'users'));
     }
 
     /**

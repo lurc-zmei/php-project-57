@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskStatusController;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
     return view('home');
@@ -15,6 +16,8 @@ Route::get('task_statuses/{id}/edit', [TaskStatusController::class, 'edit'])->na
 Route::patch('task_statuses/{id}/update', [TaskStatusController::class, 'update'])->name('task_statuses.update');
 Route::delete('task_statuses/{id}', [TaskStatusController::class, 'destroy'])->name('task_statuses.destroy');
 
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
+Route::get('/tasks_create', [TaskController::class, 'create'])->name('tasks.create');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

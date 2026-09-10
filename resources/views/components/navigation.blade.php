@@ -11,7 +11,7 @@
             <!-- Ссылки навигации по центру через x-nav-link -->
             <div class="hidden sm:flex space-x-8 mx-auto h-full">
                 @auth
-                <x-nav-link href="#" :active="request()->is('tasks*')">
+                <x-nav-link href="/tasks" :active="request()->is('tasks*')">
                     {{ __('Задачи') }}
                 </x-nav-link>
 
