@@ -56,32 +56,58 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(int $id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        return view('tasks.show', compact('task'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit(int $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $statuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
+        return view('tasks.edit', compact('task', 'statuses', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, int $id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        $request->merge([
+            'created_by_id' => Auth::id(),
+        ]);
+
+        $validated = $request->validate([
+            'name' => "required|string|max:24|unique:tasks,name,{$task->id}",
+            'description' => 'nullable|string|max:255',
+            'status_id' => 'required|exists:task_statuses,id',
+            'created_by_id' => 'required|exists:users,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
+        ]);
+
+        $task->update($validated);
+
+        flash('Задача успешно изменена')->success();
+
+        return redirect()->route('tasks');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(int $id)
     {
-        //
+       $task = Task::findOrFail($id);
+       $task->delete();
+
+       return redirect()->route('tasks');
     }
 }

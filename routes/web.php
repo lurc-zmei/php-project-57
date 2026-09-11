@@ -19,6 +19,9 @@ Route::delete('/task_statuses/{id}', [TaskStatusController::class, 'destroy'])->
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
 Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
+Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::patch('/tasks/{id}/update', [TaskController::class, 'update'])->name('tasks.update');
+Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
