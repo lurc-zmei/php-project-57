@@ -22,14 +22,12 @@
                     @foreach ($tasks as $task)
                         <tr>
                             <td class="py-3 px-4">{{ $task->id }}</td>
-        {{-- TODO: сделать вывод имен вместо цифр --}}
-                            <td class="py-3 px-4">{{ $task->status_id }}</td>
-                            <td class="py-3 px-4 text-blue-600 hover:underline"><a href="{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a></td>
-        {{-- TODO: сделать вывод имен вместо цифр --}}
-                            <td class="py-3 px-4">{{ $task->created_by_id }}</td>
-        {{-- TODO: сделать вывод имен вместо цифр --}}
-                            <td class="py-3 px-4">{{ $task->assigned_to_id }}</td>
-                            <td class="py-3 px-4">{{ $task->created_at }}</td>
+                            <td class="py-3 px-4">{{ $task->status->name }}</td>
+                            <td class="py-3 px-4 text-blue-600 hover:underline"><a
+                                    href="{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a></td>
+                            <td class="py-3 px-4">{{ $task->createdBy->name }}</td>
+                            <td class="py-3 px-4">{{ $task->assignedTo->name }}</td>
+                            <td class="py-3 px-4">{{ $task->created_at->format('d.m.Y') }}</td>
                             <td class="py-3 px-4">
                                 <a href="{{ route('tasks.edit', $task->id) }}"
                                     class="text-blue-600 hover:underline">Изменить</a>

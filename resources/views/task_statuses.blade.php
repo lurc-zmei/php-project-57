@@ -20,7 +20,7 @@
                         <tr>
                             <td class="py-3 px-4">{{ $status->id }}</td>
                             <td class="py-3 px-4">{{ $status->name }}</td>
-                            <td class="py-3 px-4">{{ $status->created_at }}</td>
+                            <td class="py-3 px-4">{{ $status->created_at->format('d.m.Y') }}</td>
                             <td class="py-3 px-4">
                                 <form action="{{ route('task_statuses.destroy', $status->id) }}" method="POST"
                                     onsubmit="return confirm('Вы уверены?');" class="inline">
