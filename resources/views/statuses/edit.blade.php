@@ -9,7 +9,7 @@
                 @method('PATCH')
                 <div>
                     <x-input-label for="name" :value="__('Название статуса')" />
-                    <x-text-input id="name" class="block mt-1" type="text" name="name" :value="old('name')"
+                    <x-text-input id="name" class="block mt-1" type="text" name="name" :value="old('name', $status->name)"
                         required />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>

@@ -12,14 +12,14 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::orderBy('id')->get();
 
         return view('tasks', compact('tasks'));
     }
 
     public function create()
     {
-        $statuses = TaskStatus::pluck('name', 'id');
+        $statuses = TaskStatus::orderBy('id')->pluck('name', 'id');
         $users = User::pluck('name', 'id')->prepend('', '');
 
         return view('tasks.create', compact('statuses', 'users'));
@@ -56,7 +56,7 @@ class TaskController extends Controller
     public function edit(int $id)
     {
         $task = Task::findOrFail($id);
-        $statuses = TaskStatus::pluck('name', 'id');
+        $statuses = TaskStatus::orderBy('id')->pluck('name', 'id');
         $users = User::pluck('name', 'id')->prepend('', '');
 
         return view('tasks.edit', compact('task', 'statuses', 'users'));
