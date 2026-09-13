@@ -83,7 +83,7 @@ class TaskController extends Controller
 
         return redirect()->route('tasks');
     }
-
+    // FIXME: удаление задачи только создателем
     public function destroy(int $id)
     {
         $task = Task::findOrFail($id);

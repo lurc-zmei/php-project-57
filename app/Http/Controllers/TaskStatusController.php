@@ -78,6 +78,11 @@ class TaskStatusController extends Controller
     public function destroy(int $id)
     {
         $status = TaskStatus::findOrFail($id);
+
+        if ($status->tasks()->exists()) {
+            return back()->withErrors(['error' => 'Не удалось удалить статус']);
+        }
+        
         $status->delete();
 
         return redirect()->route('task_statuses');
