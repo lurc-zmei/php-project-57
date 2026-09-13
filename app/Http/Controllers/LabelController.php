@@ -31,4 +31,25 @@ class LabelController extends Controller
 
         return redirect()->route('labels');
     }
+
+    public function edit(int $id)
+    {
+        $label = Label::findOrFail($id);
+
+        return view('labels.edit', compact('label'));
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $label = Label::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => "required|string|max:24|unique:labels,name,{$label->id}",
+            'description' => 'nullable|string|max:255'
+        ]);
+
+        $label->update($validated);
+
+        return redirect()->route('labels');
+    }
 }

@@ -82,7 +82,7 @@ class TaskStatusController extends Controller
         if ($status->tasks()->exists()) {
             return back()->withErrors(['error' => 'Не удалось удалить статус']);
         }
-        
+
         $status->delete();
 
         return redirect()->route('task_statuses');

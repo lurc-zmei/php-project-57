@@ -27,6 +27,8 @@ Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
 Route::get('/labels', [LabelController::class, 'index'])->name('labels');
 Route::get('/labels/create', [LabelController::class, 'create'])->name('labels.create');
 Route::post('/labels/store', [LabelController::class, 'store'])->name('labels.store');
+Route::get('/labels/{id}/edit', [LabelController::class, 'edit'])->name('labels.edit');
+Route::patch('/labels/{id}/update', [LabelController::class, 'update'])->name('labels.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

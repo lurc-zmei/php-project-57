@@ -31,7 +31,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:underline">Удалить</button>
                                 </form>
-                                <a href="#" {{-- TODO: указать маршрут кода появится метод {{ route('labels.edit', $status->id) }} --}}
+                                <a href="{{ route('labels.edit', $label->id) }}"
                                     class="text-blue-600 hover:underline">Изменить</a>
                             </td>
                         </tr>

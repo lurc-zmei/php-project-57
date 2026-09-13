@@ -66,10 +66,6 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $request->merge([
-            'created_by_id' => Auth::id(),
-        ]);
-
         $validated = $request->validate([
             'name' => "required|string|max:24|unique:tasks,name,{$task->id}",
             'description' => 'nullable|string|max:255',
