@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskStatusController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\LabelController;
 
 Route::get('/', function () {
     return view('home');
@@ -22,6 +23,10 @@ Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store
 Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
 Route::patch('/tasks/{id}/update', [TaskController::class, 'update'])->name('tasks.update');
 Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
+
+Route::get('/labels', [LabelController::class, 'index'])->name('labels');
+Route::get('/labels/create', [LabelController::class, 'create'])->name('labels.create');
+Route::post('/labels/store', [LabelController::class, 'store'])->name('labels.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
