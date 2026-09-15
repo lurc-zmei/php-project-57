@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\TaskStatus;
 use App\Models\User;
+use App\Models\Label;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
@@ -21,8 +22,9 @@ class TaskController extends Controller
     {
         $statuses = TaskStatus::orderBy('id')->pluck('name', 'id');
         $users = User::pluck('name', 'id')->prepend('', '');
+        $labels = Label::pluck('name', 'id');
 
-        return view('tasks.create', compact('statuses', 'users'));
+        return view('tasks.create', compact('statuses', 'users', 'labels'));
     }
 
     public function store(Request $request)
@@ -37,9 +39,12 @@ class TaskController extends Controller
             'status_id' => 'required|exists:task_statuses,id',
             'created_by_id' => 'required|exists:users,id',
             'assigned_to_id' => 'nullable|exists:users,id',
+            'labels' => 'nullable|array'
         ]);
 
-        Task::create($validated);
+        $task = Task::create($validated);
+
+        $task->labels()->sync($request->input('labels', []));
 
         flash('Задача успешно создана')->success();
 
@@ -58,8 +63,9 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $statuses = TaskStatus::orderBy('id')->pluck('name', 'id');
         $users = User::pluck('name', 'id')->prepend('', '');
+        $labels = Label::pluck('name', 'id');
 
-        return view('tasks.edit', compact('task', 'statuses', 'users'));
+        return view('tasks.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
     public function update(Request $request, int $id)
@@ -71,9 +77,12 @@ class TaskController extends Controller
             'description' => 'nullable|string|max:255',
             'status_id' => 'required|exists:task_statuses,id',
             'assigned_to_id' => 'nullable|exists:users,id',
+            'labels' => 'nullable|array'
         ]);
 
         $task->update($validated);
+
+        $task->labels()->sync($request->input('labels', []));
 
         flash('Задача успешно изменена')->success();
 

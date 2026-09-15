@@ -38,8 +38,9 @@
                 </div>
 
                 <div>
-                    <x-input-label for="label" :value="__('Метки')" />
-                    <x-text-input id="label" class="block w-full mt-1" type="text" name="label" />
+                    <x-input-label for="labels" :value="__('Метки')" />
+                    <x-select-input id="labels" name="labels[]" :options="$labels" multiple size="5"
+                        class="block w-full mt-1" :value="old('labels', $task->labels)" />
                     <x-input-error :messages="$errors->get('label')" class="mt-2" />
                 </div>
 
