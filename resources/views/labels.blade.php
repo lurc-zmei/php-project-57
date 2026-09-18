@@ -24,8 +24,7 @@
                             <td class="py-3 px-4">{{ $label->description }}</td>
                             <td class="py-3 px-4">{{ $label->created_at->format('d.m.Y') }}</td>
                             <td class="py-3 px-4">
-                                {{-- TODO: указать маршрут кода появится метод {{ route('labels.destroy', $status->id) }} --}}
-                                <form action="#" method="POST" onsubmit="return confirm('Вы уверены?');"
+                                <form action="{{ route('labels.destroy', $label->id) }}" method="POST" onsubmit="return confirm('Вы уверены?');"
                                     class="inline">
                                     @csrf
                                     @method('DELETE')

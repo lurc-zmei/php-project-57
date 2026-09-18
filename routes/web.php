@@ -29,6 +29,7 @@ Route::get('/labels/create', [LabelController::class, 'create'])->name('labels.c
 Route::post('/labels/store', [LabelController::class, 'store'])->name('labels.store');
 Route::get('/labels/{id}/edit', [LabelController::class, 'edit'])->name('labels.edit');
 Route::patch('/labels/{id}/update', [LabelController::class, 'update'])->name('labels.update');
+Route::delete('/labels/{id}', [LabelController::class, 'destroy'])->name('labels.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

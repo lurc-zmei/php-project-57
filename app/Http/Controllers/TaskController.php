@@ -22,7 +22,7 @@ class TaskController extends Controller
     {
         $statuses = TaskStatus::orderBy('id')->pluck('name', 'id');
         $users = User::pluck('name', 'id')->prepend('', '');
-        $labels = Label::pluck('name', 'id');
+        $labels = Label::orderBy('id')->pluck('name', 'id');
 
         return view('tasks.create', compact('statuses', 'users', 'labels'));
     }
@@ -63,7 +63,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $statuses = TaskStatus::orderBy('id')->pluck('name', 'id');
         $users = User::pluck('name', 'id')->prepend('', '');
-        $labels = Label::pluck('name', 'id');
+        $labels = Label::orderBy('id')->pluck('name', 'id');
 
         return view('tasks.edit', compact('task', 'statuses', 'users', 'labels'));
     }

@@ -52,4 +52,17 @@ class LabelController extends Controller
 
         return redirect()->route('labels');
     }
+
+    public function destroy(int $id)
+    {
+        $label = Label::findOrFail($id);
+
+        if ($label->tasks()->exists()) {
+            return back()->withErrors(['error' => 'Не удалось удалить метку']);
+        }
+
+        $label->delete();
+
+        return redirect()->route('labels');
+    }
 }
