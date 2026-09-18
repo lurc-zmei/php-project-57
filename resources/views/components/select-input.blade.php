@@ -2,6 +2,7 @@
     'disabled' => false,
     'options' => [],
     'value' => null,
+    'placeholder' => null,
 ])
 
 @php
@@ -19,6 +20,13 @@
 
 <select @disabled($disabled)
     {{ $attributes->merge(['class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']) }}>
+
+    @if ($placeholder)
+        <option value="" @selected(empty($selectedValues) || in_array('', $selectedValues, true))>
+            {{ $placeholder }}
+        </option>
+    @endif
+    
     @if (count($options) > 0)
         @foreach ($options as $optionValue => $optionLabel)
             <option value="{{ $optionValue }}" @selected(in_array((string) $optionValue, $selectedValues, true))>
