@@ -50,6 +50,8 @@ class LabelController extends Controller
 
         $label->update($validated);
 
+        flash('Метка успешно изменена')->success();
+
         return redirect()->route('labels');
     }
 
@@ -58,10 +60,14 @@ class LabelController extends Controller
         $label = Label::findOrFail($id);
 
         if ($label->tasks()->exists()) {
-            return back()->withErrors(['error' => 'Не удалось удалить метку']);
+            flash('Не удалось удалить метку')->warning();
+
+            return back();
         }
 
         $label->delete();
+
+        flash('Метка успешно удалена')->success();
 
         return redirect()->route('labels');
     }

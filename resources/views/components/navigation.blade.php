@@ -7,34 +7,31 @@
                 </a>
             </div>
 
-            <!-- Ссылки навигации по центру через x-nav-link -->
             <div class="hidden sm:flex space-x-8 mx-auto h-full">
-                @auth
-                    <x-nav-link href="{{ route('tasks') }}" :active="request()->is('tasks*')">
-                        {{ __('Задачи') }}
-                    </x-nav-link>
+                {{-- @auth TODO: настроить доступ видимости контента --}}
+                <x-nav-link href="{{ route('tasks') }}" :active="request()->is('tasks*')">
+                    {{ __('Задачи') }}
+                </x-nav-link>
 
-                    <x-nav-link href="{{ route('task_statuses') }}" :active="request()->is('task_statuses*')">
-                        {{ __('Статусы') }}
-                    </x-nav-link>
+                <x-nav-link href="{{ route('task_statuses') }}" :active="request()->is('task_statuses*')">
+                    {{ __('Статусы') }}
+                </x-nav-link>
 
-                    <x-nav-link href="{{ route('labels') }}" :active="request()->is('labels*')">
-                        {{ __('Метки') }}
-                    </x-nav-link>
-                @endauth
+                <x-nav-link href="{{ route('labels') }}" :active="request()->is('labels*')">
+                    {{ __('Метки') }}
+                </x-nav-link>
+                {{-- @endauth --}}
             </div>
 
-            <!-- Правая часть (Авторизация / Гость) -->
             <div class="flex items-center">
                 @auth
                     <div class="flex items-center space-x-4">
 
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
-                            <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-150 ease-in-out no-underline">
+                            <x-primary-button>
                                 {{ __('Выход') }}
-                            </button>
+                            </x-primary-button>
                         </form>
                     </div>
                 @else

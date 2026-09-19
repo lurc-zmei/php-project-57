@@ -1,13 +1,15 @@
 <x-layout>
-    <div class="py-12 px-4 max-w-7xl mx-auto">
-        <h1 class="text-5xl font-normal mb-8">Метки</h1>
+    <div>
+        <h1 class="text-5xl font-normal">Метки</h1>
 
-        <a href="{{ route('labels.create') }}"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-150 ease-in-out no-underline">
-            Создать метку
-        </a>
+        <div class="mt-6">
+            <a href="{{ route('labels.create') }}"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-150 ease-in-out no-underline">
+                Создать метку
+            </a>
+        </div>
 
-        <div class="py-12 px-4 max-w-7xl mx-auto">
+        <div class="mt-6">
             <table class="w-full text-left border-collapse">
                 <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                     <td class="py-3 px-4">ID</td>
@@ -20,12 +22,12 @@
                     @foreach ($labels as $label)
                         <tr>
                             <td class="py-3 px-4">{{ $label->id }}</td>
-                            <td class="py-3 px-4">{{ $label->name }}</td>
+                            <td class="py-3 px-4 font-semibold">{{ $label->name }}</td>
                             <td class="py-3 px-4">{{ $label->description }}</td>
                             <td class="py-3 px-4">{{ $label->created_at->format('d.m.Y') }}</td>
                             <td class="py-3 px-4">
-                                <form action="{{ route('labels.destroy', $label->id) }}" method="POST" onsubmit="return confirm('Вы уверены?');"
-                                    class="inline">
+                                <form action="{{ route('labels.destroy', $label->id) }}" method="POST"
+                                    onsubmit="return confirm('Вы уверены?');" class="inline mr-3">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:underline">Удалить</button>
@@ -38,6 +40,5 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </x-layout>

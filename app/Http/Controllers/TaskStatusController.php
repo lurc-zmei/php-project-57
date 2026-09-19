@@ -7,26 +7,18 @@ use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $taskStatus = TaskStatus::orderBy('id')->get();
+
         return view('task_statuses', compact('taskStatus'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('statuses.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -40,26 +32,18 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(TaskStatus $taskStatus)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(int $id)
     {
         $status = TaskStatus::findOrFail($id);
+
         return view('statuses.edit', compact('status'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, int $id)
     {
         $status = TaskStatus::findOrFail($id);
@@ -69,21 +53,24 @@ class TaskStatusController extends Controller
 
         $status->update($validated);
 
+        flash('Статус успешно изменен')->success();
+
         return redirect()->route('task_statuses');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(int $id)
     {
         $status = TaskStatus::findOrFail($id);
 
         if ($status->tasks()->exists()) {
-            return back()->withErrors(['error' => 'Не удалось удалить статус']);
+            flash('Не удалось удалить статус')->warning();
+
+            return back();
         }
 
         $status->delete();
+
+        flash('Статус успешно удален')->success();
 
         return redirect()->route('task_statuses');
     }

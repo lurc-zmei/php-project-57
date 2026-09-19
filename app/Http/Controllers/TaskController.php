@@ -107,6 +107,8 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task->delete();
 
+        flash('Задача успешно удалена')->success();
+
         return redirect()->route('tasks');
     }
 }
