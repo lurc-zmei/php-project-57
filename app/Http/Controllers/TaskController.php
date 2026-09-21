@@ -47,7 +47,7 @@ class TaskController extends Controller
         ]);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:24|unique:tasks,name',
+            'name' => 'required|string|max:96|unique:tasks,name',
             'description' => 'nullable|string|max:255',
             'status_id' => 'required|exists:task_statuses,id',
             'created_by_id' => 'required|exists:users,id',
@@ -86,7 +86,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
 
         $validated = $request->validate([
-            'name' => "required|string|max:24|unique:tasks,name,{$task->id}",
+            'name' => "required|string|max:96|unique:tasks,name,{$task->id}",
             'description' => 'nullable|string|max:255',
             'status_id' => 'required|exists:task_statuses,id',
             'assigned_to_id' => 'nullable|exists:users,id',

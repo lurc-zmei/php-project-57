@@ -1,23 +1,23 @@
 <x-layout>
-    <div>
-        <h1 class="text-4xl font-normal">Просмотр задачи: {{ $task->name }}</h1>
+    <div class="w-full sm:max-w-xl">
+        <h1 class="text-4xl font-normal break-words">Просмотр задачи: {{ $task->name }}</h1>
 
-        <div class="w-full sm:max-w-xl mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <div class="mb-2">
-                <p class="inline font-semibold"> Имя: </p>
-                <p class="inline"> {{ $task->name }} </p>
-            </div>
-            <div class="mb-2">
-                <p class="inline font-semibold"> Статус: </p>
-                <p class="inline"> {{ $task->status->name }} </p>
-            </div>
-            <div class="mb-2">
-                <p class="inline font-semibold"> Описание: </p>
-                <p class="inline"> {{ $task->description }} </p>
-            </div>
+        <div class="mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg break-words">
             <div>
-                <p class="font-semibold mb-2"> Метки: </p>
-                <div class="flex flex-wrap gap-2">
+                <span class="font-semibold">Имя:</span>
+                <span>{{ $task->name }}</span>
+            </div>
+            <div class="mt-1">
+                <span class="font-semibold">Статус:</span>
+                <span>{{ $task->status->name }}</span>
+            </div>
+            <div class="mt-1">
+                <span class="font-semibold">Описание:</span>
+                <span>{{ $task->description }}</span>
+            </div>
+            <div class="mt-1">
+                <p class="font-semibold"> Метки: </p>
+                <div class="flex flex-wrap gap-2 mt-1">
                     @foreach ($task->labels as $label)
                         <span
                             class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-medium text-sm uppercase bg-blue-200 text-blue-600">
