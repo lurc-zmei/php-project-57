@@ -32,11 +32,6 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses');
     }
 
-    public function show(TaskStatus $taskStatus)
-    {
-        //
-    }
-
     public function edit(int $id)
     {
         $status = TaskStatus::findOrFail($id);
