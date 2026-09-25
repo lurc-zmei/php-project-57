@@ -101,10 +101,16 @@ class TaskController extends Controller
 
         return redirect()->route('tasks');
     }
-    // FIXME: удаление задачи только создателем
+
     public function destroy(int $id)
     {
         $task = Task::findOrFail($id);
+
+        if ($task->created_by_id !== Auth::id()) {
+            flash('Не удалось удалить задачу');
+            return back();
+        }
+
         $task->delete();
 
         flash('Задача успешно удалена')->success();
