@@ -22,7 +22,7 @@ class TaskStatusController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:24|unique:task_statuses,name'
+            'name' => 'required|string|max:48|unique:task_statuses,name'
         ]);
 
         TaskStatus::create($validated);
@@ -43,7 +43,7 @@ class TaskStatusController extends Controller
     {
         $status = TaskStatus::findOrFail($id);
         $validated = $request->validate([
-            'name' => "required|unique:task_statuses,name,{$status->id}"
+            'name' => "required|max:48|unique:task_statuses,name,{$status->id}"
         ]);
 
         $status->update($validated);

@@ -2,15 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Task;
+use App\Models\Label;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\TaskStatus;
-use App\Models\User;
 
 /**
- * @extends Factory<Task>
+ * @extends Factory<Label>
  */
-class TaskFactory extends Factory
+class LabelFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,9 +18,8 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->text(48),
-            'status_id' => TaskStatus::factory(),
-            'created_by_id' => User::factory()
+            'name' => fake()->text(24),
+            'description' => fake()->text(128)
         ];
     }
 }

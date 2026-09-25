@@ -21,7 +21,7 @@ class LabelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:24|unique:labels,name',
+            'name' => 'required|string|max:48|unique:labels,name',
             'description' => 'nullable|string|max:255'
         ]);
 
@@ -44,7 +44,7 @@ class LabelController extends Controller
         $label = Label::findOrFail($id);
 
         $validated = $request->validate([
-            'name' => "required|string|max:24|unique:labels,name,{$label->id}",
+            'name' => "required|string|max:48|unique:labels,name,{$label->id}",
             'description' => 'nullable|string|max:255'
         ]);
 
