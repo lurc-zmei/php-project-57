@@ -30,4 +30,4 @@ COPY . .
 RUN composer dump-autoload --optimize
 RUN pnpm run build
 
-CMD ["bash", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"]
+CMD ["bash", "-c", "php artisan migrate:refresh --seed --force && php artisan serve --host=0.0.0.0 --port=$PORT"]
