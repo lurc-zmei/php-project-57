@@ -2,29 +2,39 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testIndex(): void
+    protected User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
+    public function test_index(): void
     {
         Task::factory()->create();
         $response = $this->get(route('tasks'));
         $response->assertOk();
     }
 
-    public function testCreate(): void
+    public function test_create(): void
     {
         $response = $this->get(route('tasks.create'));
         $response->assertOk();
     }
 
-    public function testStore(): void
+    public function test_store(): void
     {
         $user = User::factory()->create();
         $data = Task::factory()->make(['created_by_id' => $user->id])->toArray();
@@ -36,21 +46,21 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', $data);
     }
 
-    public function testShow(): void
+    public function test_show(): void
     {
         $task = Task::factory()->create();
         $response = $this->get(route('tasks.show', $task->id));
         $response->assertOk();
     }
 
-    public function testEdit(): void
+    public function test_edit(): void
     {
         $task = Task::factory()->create();
         $response = $this->get(route('tasks.edit', $task));
         $response->assertOk();
     }
 
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $task = Task::factory()->create();
         $data = Task::factory()->make()->only('name', 'status_id');
@@ -61,7 +71,7 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', $data);
     }
 
-    public function testDestroy(): void
+    public function test_destroy(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create(['created_by_id' => $user->id]);
@@ -71,5 +81,4 @@ class TaskControllerTest extends TestCase
         $response->assertRedirect(route('tasks'));
         $this->assertDatabaseMissing('tasks', $task->only('id'));
     }
-
 }

@@ -8,7 +8,6 @@
             </div>
 
             <div class="hidden sm:flex space-x-8 mx-auto h-full">
-                {{-- @auth TODO: настроить доступ видимости контента --}}
                 <x-nav-link href="{{ route('tasks') }}" :active="request()->is('tasks*')">
                     {{ __('Задачи') }}
                 </x-nav-link>
@@ -20,7 +19,6 @@
                 <x-nav-link href="{{ route('labels') }}" :active="request()->is('labels*')">
                     {{ __('Метки') }}
                 </x-nav-link>
-                {{-- @endauth --}}
             </div>
 
             <div class="flex items-center">

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 #[Fillable([
     'name',
     'description',
     'status_id',
     'created_by_id',
-    'assigned_to_id'
+    'assigned_to_id',
 ])]
 class Task extends Model
 {
@@ -29,7 +29,7 @@ class Task extends Model
 
     public function assignedTo()
     {
-        return $this->belongsTo(User::class, 'assigned_to_id')->withDefault(['name' => '',]);
+        return $this->belongsTo(User::class, 'assigned_to_id')->withDefault(['name' => '']);
     }
 
     public function labels()

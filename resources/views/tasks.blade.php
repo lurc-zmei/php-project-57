@@ -27,10 +27,10 @@
                 </x-primary-button>
             </form>
             @auth
-            <a href="{{ route('tasks.create') }}"
-                class='inline-flex flex-col items-center ml-auto px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600'>
-                Создать задачу
-            </a>
+                <a href="{{ route('tasks.create') }}"
+                    class='inline-flex flex-col items-center ml-auto px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600'>
+                    Создать задачу
+                </a>
             @endauth
         </div>
 
@@ -43,33 +43,35 @@
                     <td class="py-3 px-4">АВТОР</td>
                     <td class="py-3 px-4">ИСПОЛНИТЕЛЬ</td>
                     <td class="py-3 px-4">ДАТА СОЗДАНИЯ</td>
-                    <td class="py-3 px-4">ДЕЙСТВИЯ</td>
+                    @auth
+                        <td class="py-3 px-4">ДЕЙСТВИЯ</td>
+                    @endauth
                 </thead>
                 <tbody class="divide-y divide-gray-200 text-sm text-gray-600">
                     @foreach ($tasks as $task)
-                    <tr>
-                        <td class="py-3 px-4">{{ $task->id }}</td>
-                        <td class="py-3 px-4">{{ $task->status->name }}</td>
-                        <td class="py-3 px-4 text-blue-600 hover:underline"><a
-                                href="{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a></td>
-                        <td class="py-3 px-4">{{ $task->createdBy->name }}</td>
-                        <td class="py-3 px-4">{{ $task->assignedTo->name }}</td>
-                        <td class="py-3 px-4">{{ $task->created_at->format('d.m.Y') }}</td>
-                        @auth
-                        <td class="py-3 px-4">
-                            @if ($task->created_by_id === Auth::id())
-                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
-                                onsubmit="return confirm('Вы уверены?');" class="inline mr-3">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:underline">Удалить</button>
-                            </form>
-                            @endif
-                            <a href="{{ route('tasks.edit', $task->id) }}"
-                                class="text-blue-600 hover:underline">Изменить</a>
-                        </td>
-                        @endauth
-                    </tr>
+                        <tr>
+                            <td class="py-3 px-4">{{ $task->id }}</td>
+                            <td class="py-3 px-4">{{ $task->status->name }}</td>
+                            <td class="py-3 px-4 text-blue-600 hover:underline"><a
+                                    href="{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a></td>
+                            <td class="py-3 px-4">{{ $task->createdBy->name }}</td>
+                            <td class="py-3 px-4">{{ $task->assignedTo->name }}</td>
+                            <td class="py-3 px-4">{{ $task->created_at->format('d.m.Y') }}</td>
+                            @auth
+                                <td class="py-3 px-4">
+                                    @if ($task->created_by_id === Auth::id())
+                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
+                                            onsubmit="return confirm('Вы уверены?');" class="inline mr-3">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline">Удалить</button>
+                                        </form>
+                                    @endif
+                                    <a href="{{ route('tasks.edit', $task->id) }}"
+                                        class="text-blue-600 hover:underline">Изменить</a>
+                                </td>
+                            @endauth
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

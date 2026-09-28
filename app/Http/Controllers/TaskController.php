@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use App\Models\TaskStatus;
 use App\Models\User;
-use App\Models\Label;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -52,7 +52,7 @@ class TaskController extends Controller
             'status_id' => 'required|exists:task_statuses,id',
             'created_by_id' => 'required|exists:users,id',
             'assigned_to_id' => 'nullable|exists:users,id',
-            'labels' => 'nullable|array'
+            'labels' => 'nullable|array',
         ]);
 
         $task = Task::create($validated);
@@ -90,7 +90,7 @@ class TaskController extends Controller
             'description' => 'nullable|string|max:255',
             'status_id' => 'required|exists:task_statuses,id',
             'assigned_to_id' => 'nullable|exists:users,id',
-            'labels' => 'nullable|array'
+            'labels' => 'nullable|array',
         ]);
 
         $task->update($validated);
@@ -108,6 +108,7 @@ class TaskController extends Controller
 
         if ($task->created_by_id !== Auth::id()) {
             flash('Не удалось удалить задачу');
+
             return back();
         }
 

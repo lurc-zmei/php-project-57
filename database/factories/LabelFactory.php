@@ -19,7 +19,7 @@ class LabelFactory extends Factory
     {
         return [
             'name' => fake()->text(24),
-            'description' => fake()->text(128)
+            'description' => fake()->text(128),
         ];
     }
 }

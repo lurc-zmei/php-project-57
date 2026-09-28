@@ -2,28 +2,39 @@
 
 namespace Tests\Feature;
 
+use App\Models\TaskStatus;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\TaskStatus;
 
 class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testIndex(): void
+    protected User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
+    public function test_index(): void
     {
         TaskStatus::factory()->create();
         $response = $this->get(route('task_statuses'));
         $response->assertOk();
     }
 
-    public function testCreate(): void
+    public function test_create(): void
     {
         $response = $this->get(route('task_statuses.create'));
         $response->assertOk();
     }
 
-    public function testStore(): void
+    public function test_store(): void
     {
         $data = TaskStatus::factory()->make()->toArray();
         $response = $this->post(route('task_statuses.store'), $data);
@@ -33,14 +44,14 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseHas('task_statuses', $data);
     }
 
-    public function testEdit(): void
+    public function test_edit(): void
     {
         $status = TaskStatus::factory()->create();
         $response = $this->get(route('task_statuses.edit', [$status]));
         $response->assertOk();
     }
 
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $status = TaskStatus::factory()->create();
         $data = TaskStatus::factory()->make()->only('name');
@@ -50,7 +61,7 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseHas('task_statuses', $data);
     }
 
-    public function testDestroy(): void
+    public function test_destroy(): void
     {
         $status = TaskStatus::factory()->create();
         $response = $this->delete(route('task_statuses.destroy', [$status]));

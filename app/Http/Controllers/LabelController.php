@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Label;
+use Illuminate\Http\Request;
 
 class LabelController extends Controller
 {
     public function index()
     {
         $labels = Label::orderBy('id')->get();
+
         return view('labels', compact('labels'));
     }
 
@@ -22,7 +23,7 @@ class LabelController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:48|unique:labels,name',
-            'description' => 'nullable|string|max:255'
+            'description' => 'nullable|string|max:255',
         ]);
 
         Label::create($validated);
@@ -45,7 +46,7 @@ class LabelController extends Controller
 
         $validated = $request->validate([
             'name' => "required|string|max:48|unique:labels,name,{$label->id}",
-            'description' => 'nullable|string|max:255'
+            'description' => 'nullable|string|max:255',
         ]);
 
         $label->update($validated);

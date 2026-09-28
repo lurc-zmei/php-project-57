@@ -2,12 +2,12 @@
     <div>
         <h1 class="text-5xl font-normal">Метки</h1>
         @auth
-        <div class="mt-6">
-            <a href="{{ route('labels.create') }}"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-150 ease-in-out no-underline">
-                Создать метку
-            </a>
-        </div>
+            <div class="mt-6">
+                <a href="{{ route('labels.create') }}"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-150 ease-in-out no-underline">
+                    Создать метку
+                </a>
+            </div>
         @endauth
         <div class="mt-6">
             <table class="w-full text-left border-collapse">
@@ -16,28 +16,30 @@
                     <td class="py-3 px-4">ИМЯ</td>
                     <td class="py-3 px-4">ОПИСАНИЕ</td>
                     <td class="py-3 px-4">ДАТА СОЗДАНИЯ</td>
-                    <td class="py-3 px-4">ДЕЙСТВИЯ</td>
+                    @auth
+                        <td class="py-3 px-4">ДЕЙСТВИЯ</td>
+                    @endauth
                 </thead>
                 <tbody class="divide-y divide-gray-200 text-sm text-gray-600">
                     @foreach ($labels as $label)
-                    <tr>
-                        <td class="py-3 px-4">{{ $label->id }}</td>
-                        <td class="py-3 px-4 font-semibold">{{ $label->name }}</td>
-                        <td class="py-3 px-4">{{ $label->description }}</td>
-                        <td class="py-3 px-4">{{ $label->created_at->format('d.m.Y') }}</td>
-                        @auth
-                        <td class="py-3 px-4">
-                            <form action="{{ route('labels.destroy', $label->id) }}" method="POST"
-                                onsubmit="return confirm('Вы уверены?');" class="inline mr-3">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:underline">Удалить</button>
-                            </form>
-                            <a href="{{ route('labels.edit', $label->id) }}"
-                                class="text-blue-600 hover:underline">Изменить</a>
-                        </td>
-                        @endauth
-                    </tr>
+                        <tr>
+                            <td class="py-3 px-4">{{ $label->id }}</td>
+                            <td class="py-3 px-4 font-semibold">{{ $label->name }}</td>
+                            <td class="py-3 px-4">{{ $label->description }}</td>
+                            <td class="py-3 px-4">{{ $label->created_at->format('d.m.Y') }}</td>
+                            @auth
+                                <td class="py-3 px-4">
+                                    <form action="{{ route('labels.destroy', $label->id) }}" method="POST"
+                                        onsubmit="return confirm('Вы уверены?');" class="inline mr-3">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:underline">Удалить</button>
+                                    </form>
+                                    <a href="{{ route('labels.edit', $label->id) }}"
+                                        class="text-blue-600 hover:underline">Изменить</a>
+                                </td>
+                            @endauth
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

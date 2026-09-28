@@ -2,28 +2,39 @@
 
 namespace Tests\Feature;
 
+use App\Models\Label;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Label;
 
 class LabelControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testIndex(): void
+    protected User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
+    public function test_index(): void
     {
         Label::factory()->create();
         $response = $this->get(route('labels'));
         $response->assertOk();
     }
 
-    public function testCreate(): void
+    public function test_create(): void
     {
         $response = $this->get(route('labels.create'));
         $response->assertOk();
     }
 
-    public function testStore(): void
+    public function test_store(): void
     {
         $data = Label::factory()->make()->toArray();
         $response = $this->post(route('labels.store'), $data);
@@ -33,14 +44,14 @@ class LabelControllerTest extends TestCase
         $this->assertDatabaseHas('labels', $data);
     }
 
-    public function testEdit(): void
+    public function test_edit(): void
     {
         $label = Label::factory()->create();
         $response = $this->get(route('labels.edit', $label));
         $response->assertOk();
     }
 
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $label = Label::factory()->create();
         $data = Label::factory()->make()->only('name', 'description');
@@ -51,7 +62,7 @@ class LabelControllerTest extends TestCase
         $this->assertDatabaseHas('labels', $data);
     }
 
-    public function testDestroy(): void
+    public function test_destroy(): void
     {
         $label = Label::factory()->create();
         $response = $this->delete(route('labels.destroy', $label));

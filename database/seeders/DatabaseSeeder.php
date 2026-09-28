@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Label;
+use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\TaskStatus;
-use App\Models\Label;
 
 class DatabaseSeeder extends Seeder
 {
