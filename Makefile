@@ -6,8 +6,8 @@ setup:
 	php artisan key:generate
 	touch database/database.sqlite
 	php artisan migrate
-	pnpm install
-	pnpm run build
+	npm ci
+	npm run build
 
 test:
 	php artisan test
