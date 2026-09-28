@@ -28,10 +28,15 @@
                             @auth
                                 <td class="py-3 px-4">
                                     <form action="{{ route('task_statuses.destroy', $status->id) }}" method="POST"
-                                        onsubmit="return confirm('Вы уверены?');" class="inline mr-3">
+                                        class="inline mr-3">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:underline">Удалить</button>
+                                        <a href="{{ route('task_statuses.destroy', $status->id) }}" data-method="delete"
+                                            data-confirm="Вы уверены?"
+                                            onclick="event.preventDefault(); if (confirm('Вы уверены?')) { this.closest('form').submit(); }"
+                                            class="text-red-600 hover:underline cursor-pointer" rel="nofollow">
+                                            Удалить
+                                        </a>
                                     </form>
                                     <a href="{{ route('task_statuses.edit', $status->id) }}"
                                         class="text-blue-600 hover:underline">Изменить</a>

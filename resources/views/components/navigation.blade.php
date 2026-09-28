@@ -24,12 +24,13 @@
             <div class="flex items-center">
                 @auth
                     <div class="flex items-center space-x-4">
-
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
-                            <x-primary-button>
+                            <a href="{{ route('logout') }}" data-method="post"
+                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-150 ease-in-out no-underline cursor-pointer">
                                 {{ __('Выход') }}
-                            </x-primary-button>
+                            </a>
                         </form>
                     </div>
                 @else

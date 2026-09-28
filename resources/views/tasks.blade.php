@@ -61,10 +61,15 @@
                                 <td class="py-3 px-4">
                                     @if ($task->created_by_id === Auth::id())
                                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
-                                            onsubmit="return confirm('Вы уверены?');" class="inline mr-3">
+                                            class="inline mr-3">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:underline">Удалить</button>
+                                            <a href="{{ route('tasks.destroy', $task->id) }}" data-method="delete"
+                                                data-confirm="Вы уверены?"
+                                                onclick="event.preventDefault(); if (confirm('Вы уверены?')) { this.closest('form').submit(); }"
+                                                class="text-red-600 hover:underline cursor-pointer" rel="nofollow">
+                                                Удалить
+                                            </a>
                                         </form>
                                     @endif
                                     <a href="{{ route('tasks.edit', $task->id) }}"
