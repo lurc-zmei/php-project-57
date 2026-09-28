@@ -53,6 +53,9 @@ class TaskController extends Controller
             'created_by_id' => 'required|exists:users,id',
             'assigned_to_id' => 'nullable|exists:users,id',
             'labels' => 'nullable|array',
+        ], [
+            'name.required' => 'Это обязательное поле',
+            'name.unique' => 'Задача с таким именем уже существует',
         ]);
 
         $task = Task::create($validated);
@@ -91,6 +94,9 @@ class TaskController extends Controller
             'status_id' => 'required|exists:task_statuses,id',
             'assigned_to_id' => 'nullable|exists:users,id',
             'labels' => 'nullable|array',
+        ], [
+            'name.required' => 'Это обязательное поле',
+            'name.unique' => 'Задача с таким именем уже существует',
         ]);
 
         $task->update($validated);

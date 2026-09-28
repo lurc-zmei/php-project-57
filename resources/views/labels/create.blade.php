@@ -10,8 +10,8 @@
 
                 <div>
                     <x-input-label for="name" :value="__('Имя')" />
-                    <x-text-input id="name" class="block w-full mt-1" type="text" name="name" :value="old('name')"
-                        required />
+                    <x-text-input id="name" class="block w-full mt-1" type="text" name="name"
+                        :value="old('name')" />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
