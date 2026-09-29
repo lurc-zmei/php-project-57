@@ -23,7 +23,7 @@
 
                 <div>
                     <x-input-label for="status_id" :value="__('Статус')" />
-                    <x-select-input id="status_id" class="block w-full mt-1" name="status_id" :options="$statuses" />
+                    <x-select-input id="status_id" class="block w-full mt-1" name="status_id" :options="$statuses" placeholder=" "/>
                     <x-input-error :messages="$errors->get('status_id')" class="mt-2" />
                 </div>
 
