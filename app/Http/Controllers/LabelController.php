@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLabelRequest;
+use App\Http\Requests\UpdateLabelRequest;
 use App\Models\Label;
-use Illuminate\Http\Request;
 
 class LabelController extends Controller
 {
@@ -19,21 +20,15 @@ class LabelController extends Controller
         return view('labels.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreLabelRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:48|unique:labels,name',
-            'description' => 'nullable|string|max:255',
-        ], [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Метка с таким именем уже существует',
-        ]);
+        $validated = $request->validated();
 
         Label::create($validated);
 
         flash('Метка успешно создана')->success();
 
-        return redirect()->route('labels');
+        return to_route('labels');
     }
 
     public function edit(int $id)
@@ -43,23 +38,16 @@ class LabelController extends Controller
         return view('labels.edit', compact('label'));
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateLabelRequest $request, int $id)
     {
         $label = Label::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => "required|string|max:48|unique:labels,name,{$label->id}",
-            'description' => 'nullable|string|max:255',
-        ], [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Метка с таким именем уже существует',
-        ]);
-
+        $validated = $request->validated();
         $label->update($validated);
 
         flash('Метка успешно изменена')->success();
 
-        return redirect()->route('labels');
+        return to_route('labels');
     }
 
     public function destroy(int $id)
@@ -76,6 +64,6 @@ class LabelController extends Controller
 
         flash('Метка успешно удалена')->success();
 
-        return redirect()->route('labels');
+        return to_route('labels');
     }
 }

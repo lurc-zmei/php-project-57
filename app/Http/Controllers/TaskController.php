@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -40,32 +41,15 @@ class TaskController extends Controller
         return view('tasks.create', compact('statuses', 'users', 'labels'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $request->merge([
-            'created_by_id' => Auth::id(),
-        ]);
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:96|unique:tasks,name',
-            'description' => 'nullable|string|max:255',
-            'status_id' => 'required|exists:task_statuses,id',
-            'created_by_id' => 'required|exists:users,id',
-            'assigned_to_id' => 'nullable|exists:users,id',
-            'labels' => 'nullable|array',
-        ], [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Задача с таким именем уже существует',
-            'status_id.required' => 'Это обязательное поле'
-        ]);
-
+        $validated = $request->validated();
         $task = Task::create($validated);
-
         $task->labels()->sync($request->input('labels', []));
 
         flash('Задача успешно создана')->success();
 
-        return redirect()->route('tasks');
+        return to_route('tasks');
     }
 
     public function show(int $id)
@@ -85,36 +69,24 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateTaskRequest $request, int $id)
     {
         $task = Task::findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => "required|string|max:96|unique:tasks,name,{$task->id}",
-            'description' => 'nullable|string|max:255',
-            'status_id' => 'required|exists:task_statuses,id',
-            'assigned_to_id' => 'nullable|exists:users,id',
-            'labels' => 'nullable|array',
-        ], [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Задача с таким именем уже существует',
-        ]);
-
+        $validated = $request->validated();
         $task->update($validated);
-
         $task->labels()->sync($request->input('labels', []));
 
         flash('Задача успешно изменена')->success();
 
-        return redirect()->route('tasks');
+        return to_route('tasks');
     }
 
     public function destroy(int $id)
     {
         $task = Task::findOrFail($id);
 
-        if ($task->created_by_id !== Auth::id()) {
-            flash('Не удалось удалить задачу');
+        if (Gate::denies('delete', $task)) {
+            flash('Не удалось удалить задачу')->warning();
 
             return back();
         }
@@ -123,6 +95,6 @@ class TaskController extends Controller
 
         flash('Задача успешно удалена')->success();
 
-        return redirect()->route('tasks');
+        return to_route('tasks');
     }
 }

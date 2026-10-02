@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskStatusRequest;
+use App\Http\Requests\UpdateTaskStatusRequest;
 use App\Models\TaskStatus;
-use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
@@ -19,20 +20,15 @@ class TaskStatusController extends Controller
         return view('statuses.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskStatusRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:48|unique:task_statuses,name',
-        ], [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Статус с таким именем уже существует',
-        ]);
+        $validated = $request->validated();
 
         TaskStatus::create($validated);
 
         flash('Статус успешно создан')->success();
 
-        return redirect()->route('task_statuses');
+        return to_route('task_statuses');
     }
 
     public function edit(int $id)
@@ -42,21 +38,16 @@ class TaskStatusController extends Controller
         return view('statuses.edit', compact('status'));
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateTaskStatusRequest $request, int $id)
     {
         $status = TaskStatus::findOrFail($id);
-        $validated = $request->validate([
-            'name' => "required|max:48|unique:task_statuses,name,{$status->id}",
-        ], [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Статус с таким именем уже существует',
-        ]);
+        $validated = $request->validated();
 
         $status->update($validated);
 
         flash('Статус успешно изменён')->success();
 
-        return redirect()->route('task_statuses');
+        return to_route('task_statuses');
     }
 
     public function destroy(int $id)
@@ -73,6 +64,6 @@ class TaskStatusController extends Controller
 
         flash('Статус успешно удалён')->success();
 
-        return redirect()->route('task_statuses');
+        return to_route('task_statuses');
     }
 }

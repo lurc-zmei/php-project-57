@@ -59,7 +59,7 @@
                             <td class="py-3 px-4">{{ $task->created_at->format('d.m.Y') }}</td>
                             @auth
                                 <td class="py-3 px-4">
-                                    @if ($task->created_by_id === Auth::id())
+                                    @can('delete', $task)
                                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
                                             class="inline mr-3">
                                             @csrf
@@ -71,7 +71,7 @@
                                                 Удалить
                                             </a>
                                         </form>
-                                    @endif
+                                    @endcan
                                     <a href="{{ route('tasks.edit', $task->id) }}"
                                         class="text-blue-600 hover:underline">Изменить</a>
                                 </td>
